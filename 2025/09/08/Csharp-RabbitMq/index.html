@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>RabbitMQ Use | Johnson&#39;s Blog</title>
+  <meta name="keywords" content=" C# , backend , .net , RabbitMQ , Message Queue ">
+  <meta name="description" content="RabbitMQ Use | Johnson&#39;s Blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="在 Visual statio中创建 安装 AWS Toolkit for Visual Studio（在 VS 菜单的“扩展” -&gt; “管理扩展”中搜索即可）。  你需要打开 PowerShell 或 CMD，运行下面这条官方命令： 1dotnet new install Amazon.Lambda.Templates 这条命令会把 AWS 所有的 C# 模板（包括 Web API, SQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to use c# in Lambda">
+<meta property="og:url" content="https://tjtgzxs.github.io/2026/01/14/CSharp-How%20to%20use%20cSharp%20in%20Lambda/index.html">
+<meta property="og:site_name" content="Johnson&#39;s Blog">
+<meta property="og:description" content="在 Visual statio中创建 安装 AWS Toolkit for Visual Studio（在 VS 菜单的“扩展” -&gt; “管理扩展”中搜索即可）。  你需要打开 PowerShell 或 CMD，运行下面这条官方命令： 1dotnet new install Amazon.Lambda.Templates 这条命令会把 AWS 所有的 C# 模板（包括 Web API, SQ">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-14T13:21:18.000Z">
+<meta property="article:modified_time" content="2026-01-14T08:35:33.907Z">
+<meta property="article:author" content="Johnson">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="backend">
+<meta property="article:tag" content=".net">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="Model">
+<meta property="article:tag" content="aws">
+<meta property="article:tag" content="lambda">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>Johnson</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="github"
+               href="https://github.com/tjtgzxs"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="facebook"
+               href="https://www.facebook.com/faker.tops"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-facebook"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+    
+        
+            <a title="instagram"
+               href="https://www.facebook.com/faker.tops"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-instagram"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="reddit"
+               href="https://www.reddit.com/user/yelog/"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-reddit"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="weibo"
+               href="http://weibo.com/u/2307534817"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-weibo"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="jianshu"
+               href="https://www.jianshu.com/u/ff56736de7cf"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-jianshu"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="zhihu"
+               href="https://www.zhihu.com/people/jaytp/activities"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-zhihu"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+            <a title="oschina"
+               href="https://my.oschina.net/yelog"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-oschina"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+            <a title="email"
+               href="mailto:jaytp@qq.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="qq"
+               href="http://wpa.qq.com/msgrd?v=3&uin=387753733&site=qq&menu=yes"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-qq"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="kugou"
+               href="https://www.kugou.com/"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-kugou"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="neteasemusic"
+               href="https://music.163.com/#/user/home?id=88151013"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-neteasemusic"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+    <a class="more-menus">更多菜单</a>
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="All">All
+            
+                <small>(41)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel=".net">
+                        
+                        .net
+                        <small>(19)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="css">
+                        
+                        css
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Design_Patterns">
+                        
+                        Design_Patterns
+                        <small>(5)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="nginx">
+                        
+                        nginx
+                        <small>(5)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="react">
+                        
+                        react
+                        <small>(7)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+                <a class="dynamic-menu "
+                   target="_blank"
+                        
+                   href="https://github.com/tjtgzxs">github</a>
+        
+    </div>
+    <div>
+        
+        <a 
+                                           class="friends">Friends</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="41">
+<input type="hidden" id="yelog_site_word_count" value="14.7k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>.net</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>accessibility</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>aria</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>aws</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>backend</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>C#</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>CORS</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>css</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>database</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Eforce</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>frontend</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>git</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>JWT</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>lambda</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Message Queue</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Model</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nginx</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>page layout</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>php</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>RabbitMQ</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>react</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>react-form</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>react-router</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>react-toast</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>reactQuery</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>server</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>styled-components</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>swagger</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>The Wild Oasis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>toast</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>visually hidden</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>website</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <div id="local-search-result">
+
+    </div>
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="All .net "
+           href="/2026/01/14/CSharp-How%20to%20use%20cSharp%20in%20Lambda/"
+           data-tag="C#,backend,.net,database,Model,aws,lambda"
+           data-author="" >
+            <span class="post-title" title="How to use c# in Lambda">How to use c# in Lambda</span>
+            <span class="post-date" title="2026-01-14 21:21:18">2026/01/14</span>
+        </a>
+        
+        
+        <a  class="All css "
+           href="/2026/01/14/Css-tips/"
+           data-tag="css,frontend"
+           data-author="" >
+            <span class="post-title" title="Css tips">Css tips</span>
+            <span class="post-date" title="2026-01-14 16:35:33">2026/01/14</span>
+        </a>
+        
+        
+        <a  class="All css "
+           href="/2026/01/14/Css-visually%20hide%20text/"
+           data-tag="css,frontend,accessibility,aria,visually hidden"
+           data-author="" >
+            <span class="post-title" title="Css visually hide text">Css visually hide text</span>
+            <span class="post-date" title="2026-01-14 16:35:33">2026/01/14</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/09/08/Csharp-RabbitMq/"
+           data-tag="C#,backend,.net,RabbitMQ,Message Queue"
+           data-author="" >
+            <span class="post-title" title="RabbitMQ Use">RabbitMQ Use</span>
+            <span class="post-date" title="2025-09-08 21:21:18">2025/09/08</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/09/05/CSharp-Model%20And%20database/"
+           data-tag="C#,backend,.net,database,Model"
+           data-author="" >
+            <span class="post-title" title="Model And Database（EFcore+mysql）">Model And Database（EFcore+mysql）</span>
+            <span class="post-date" title="2025-09-05 21:21:18">2025/09/05</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/28/CSharp-JWT/"
+           data-tag="C#,backend,.net,JWT"
+           data-author="" >
+            <span class="post-title" title="How to use JWT">How to use JWT</span>
+            <span class="post-date" title="2025-08-28 19:21:18">2025/08/28</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/28/CSharp-Use%20Filter/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use  filter">How to use  filter</span>
+            <span class="post-date" title="2025-08-28 19:21:18">2025/08/28</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/27/CSharp-Fluent%20Validator/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use Fluent Validator">How to use Fluent Validator</span>
+            <span class="post-date" title="2025-08-27 19:21:18">2025/08/27</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/27/CSharp-Get%20Config%20And%20Secrets/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to get Config And Secrets">How to get Config And Secrets</span>
+            <span class="post-date" title="2025-08-27 19:21:18">2025/08/27</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/27/CSharp-Use%20Background%20Service/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to Use Background Service">How to Use Background Service</span>
+            <span class="post-date" title="2025-08-27 19:21:18">2025/08/27</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/27/CSharp-Use%20Efcore/"
+           data-tag="C#,backend,.net,database,Eforce"
+           data-author="" >
+            <span class="post-title" title="How to use Efcore (Mysql)">How to use Efcore (Mysql)</span>
+            <span class="post-date" title="2025-08-27 19:21:18">2025/08/27</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/27/CSharp-Get%20EnvironmentName/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to get EnvironmentName">How to get EnvironmentName</span>
+            <span class="post-date" title="2025-08-27 10:21:18">2025/08/27</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/27/CSharp-MediatR/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use MediatR">How to use MediatR</span>
+            <span class="post-date" title="2025-08-27 10:21:18">2025/08/27</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-Cache/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use Cache">How to use Cache</span>
+            <span class="post-date" title="2025-08-26 21:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-Create%20Async%20function/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to create async function">How to create async function</span>
+            <span class="post-date" title="2025-08-26 21:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-DDD%20Structure/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to design DDD Pattern">How to design DDD Pattern</span>
+            <span class="post-date" title="2025-08-26 21:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-SignalR/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use SignalR">How to use SignalR</span>
+            <span class="post-date" title="2025-08-26 21:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-Solve%20Cors%20in%20.NET%20core%20webAPI/"
+           data-tag="C#,backend,.net,CORS"
+           data-author="" >
+            <span class="post-title" title="How to solve cors in .Net core">How to solve cors in .Net core</span>
+            <span class="post-date" title="2025-08-26 21:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-Use%20DI%20inject%20services%20In%20Controller/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use DI inject services In Controller">How to use DI inject services In Controller</span>
+            <span class="post-date" title="2025-08-26 21:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-Add%20swagger%20and%20swagger%20UI%20in%20.net%20core%20WebApi/"
+           data-tag="C#,swagger,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to add swagger and swagger UI in .net core WebApi">How to add swagger and swagger UI in .net core WebApi</span>
+            <span class="post-date" title="2025-08-26 14:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-use%20Identity/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use Identity">How to use Identity</span>
+            <span class="post-date" title="2025-08-26 14:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/19/React-07-React-Hook-Form/"
+           data-tag="frontend,react,website,The Wild Oasis,react-form"
+           data-author="" >
+            <span class="post-title" title="react-05-reactQuery">react-05-reactQuery</span>
+            <span class="post-date" title="2024-11-19 17:44:03">2024/11/19</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/15/React-06-hot-toast/"
+           data-tag="frontend,react,website,The Wild Oasis,react-toast"
+           data-author="" >
+            <span class="post-title" title="react-05-reactQuery">react-05-reactQuery</span>
+            <span class="post-date" title="2024-11-15 17:44:03">2024/11/15</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/06/react-04-App-layout/"
+           data-tag="frontend,react,website,The Wild Oasis,page layout"
+           data-author="" >
+            <span class="post-title" title="react-03-react-router">react-03-react-router</span>
+            <span class="post-date" title="2024-11-06 17:44:03">2024/11/06</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/06/react-05-reactQuery/"
+           data-tag="frontend,react,website,The Wild Oasis,reactQuery,toast"
+           data-author="" >
+            <span class="post-title" title="react-05-reactQuery">react-05-reactQuery</span>
+            <span class="post-date" title="2024-11-06 17:44:03">2024/11/06</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/06/react-03-react-router/"
+           data-tag="frontend,react,website,The Wild Oasis,react-router"
+           data-author="" >
+            <span class="post-title" title="react-03-react-router">react-03-react-router</span>
+            <span class="post-date" title="2024-11-06 16:32:03">2024/11/06</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/06/react-02-styled-components/"
+           data-tag="css,frontend,react,website,The Wild Oasis,styled-components"
+           data-author="" >
+            <span class="post-title" title="react-02-styled-component">react-02-styled-component</span>
+            <span class="post-date" title="2024-11-06 13:32:03">2024/11/06</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/06/react-01-application_plan/"
+           data-tag="frontend,react,website,The Wild Oasis"
+           data-author="" >
+            <span class="post-title" title="react-01-application_plan">react-01-application_plan</span>
+            <span class="post-date" title="2024-11-06 11:25:23">2024/11/06</span>
+        </a>
+        
+        
+        <a  class="All Design_Patterns "
+           href="/2023/09/05/Design_Patterns%20_Adapter_Pattern/"
+           data-tag="backend,php"
+           data-author="" >
+            <span class="post-title" title="Design_Patterns _Adapter_Pattern">Design_Patterns _Adapter_Pattern</span>
+            <span class="post-date" title="2023-09-05 12:01:10">2023/09/05</span>
+        </a>
+        
+        
+        <a  class="All Design_Patterns "
+           href="/2023/09/01/Design_Patterns%20_Decorator_Pattern/"
+           data-tag="backend,php"
+           data-author="" >
+            <span class="post-title" title="Design_Patterns _Decorator_Pattern">Design_Patterns _Decorator_Pattern</span>
+            <span class="post-date" title="2023-09-01 12:01:10">2023/09/01</span>
+        </a>
+        
+        
+        <a  class="All Design_Patterns "
+           href="/2023/08/31/Design_Patterns_Abstract%20_Factory_Pattern%20/"
+           data-tag="backend,php"
+           data-author="" >
+            <span class="post-title" title="Design_Patterns Abstract Factory Pattern">Design_Patterns Abstract Factory Pattern</span>
+            <span class="post-date" title="2023-08-31 12:01:10">2023/08/31</span>
+        </a>
+        
+        
+        <a  class="All nginx "
+           href="/2023/08/30/nginx03-events/"
+           data-tag="backend,website,nginx,server"
+           data-author="" >
+            <span class="post-title" title="nginx03-events">nginx03-events</span>
+            <span class="post-date" title="2023-08-30 11:14:31">2023/08/30</span>
+        </a>
+        
+        
+        <a  class="All Design_Patterns "
+           href="/2023/08/29/Design_Patterns_Factory_Pattern/"
+           data-tag="backend,php"
+           data-author="" >
+            <span class="post-title" title="Design_Patterns Factory Pattern">Design_Patterns Factory Pattern</span>
+            <span class="post-date" title="2023-08-29 12:32:10">2023/08/29</span>
+        </a>
+        
+        
+        <a  class="All Design_Patterns "
+           href="/2023/08/29/Design_Patterns_Simple_Factory_Pattern/"
+           data-tag="backend,php"
+           data-author="" >
+            <span class="post-title" title="Design_Patterns Simple Factory Pattern">Design_Patterns Simple Factory Pattern</span>
+            <span class="post-date" title="2023-08-29 12:01:10">2023/08/29</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/08/29/git/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="Git">Git</span>
+            <span class="post-date" title="2023-08-29 12:01:10">2023/08/29</span>
+        </a>
+        
+        
+        <a  class="All css "
+           href="/2023/08/28/Css-Flex/"
+           data-tag="css,frontend"
+           data-author="" >
+            <span class="post-title" title="Css-flex">Css-flex</span>
+            <span class="post-date" title="2023-08-28 14:21:18">2023/08/28</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/08/28/docker-01/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="docker-01">docker-01</span>
+            <span class="post-date" title="2023-08-28 14:21:18">2023/08/28</span>
+        </a>
+        
+        
+        <a  class="All nginx "
+           href="/2023/08/28/nginx02-core/"
+           data-tag="backend,website,nginx,server"
+           data-author="" >
+            <span class="post-title" title="nginx02-core">nginx02-core</span>
+            <span class="post-date" title="2023-08-28 11:12:23">2023/08/28</span>
+        </a>
+        
+        
+        <a  class="All nginx "
+           href="/2023/08/28/nginx05-http-server%20/"
+           data-tag="backend,website,nginx,server"
+           data-author="" >
+            <span class="post-title" title="nginx05-http-server">nginx05-http-server</span>
+            <span class="post-date" title="2023-08-28 11:12:23">2023/08/28</span>
+        </a>
+        
+        
+        <a  class="All nginx "
+           href="/2023/08/27/nginx01-Command%20Params/"
+           data-tag="backend,website,nginx,server"
+           data-author="" >
+            <span class="post-title" title="nginx01-cmd params">nginx01-cmd params</span>
+            <span class="post-date" title="2023-08-27 16:14:31">2023/08/27</span>
+        </a>
+        
+        
+        <a  class="All nginx "
+           href="/2023/08/27/nginx04-http/"
+           data-tag="backend,website,nginx,server"
+           data-author="" >
+            <span class="post-title" title="nginx01-http">nginx01-http</span>
+            <span class="post-date" title="2023-08-27 16:14:31">2023/08/27</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-Csharp-RabbitMq" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">RabbitMQ Use</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel=".net">.net</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color3">C#</a>
+            
+            <a class="color3">backend</a>
+            
+            <a class="color5">.net</a>
+            
+            <a class="color4">RabbitMQ</a>
+            
+            <a class="color4">Message Queue</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2026-01-14 16:35:33'>2025-09-08 21:21</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>Count:628</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Add-RabbitMQ-Package"><span class="toc-text">Add RabbitMQ Package</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Producer"><span class="toc-text">Producer</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Controller"><span class="toc-text">Controller</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Consumer"><span class="toc-text">Consumer</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Background-Class"><span class="toc-text">Background Class</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#In-Program-cs"><span class="toc-text">In Program.cs</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Flowchart"><span class="toc-text">Flowchart</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Add-RabbitMQ-Package"><a href="#Add-RabbitMQ-Package" class="headerlink" title="Add RabbitMQ Package"></a>Add RabbitMQ Package</h1><ul>
+<li>Add <font color="red">RabbitMQ.Client</font> Package (Producer+Consumer)</li>
+</ul>
+<h1 id="Producer"><a href="#Producer" class="headerlink" title="Producer"></a>Producer</h1><h2 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h2><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Mvc;</span><br><span class="line"><span class="keyword">using</span> RabbitMQ.Client;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">RabbitMQProduct.Controllers</span>;</span><br><span class="line"></span><br><span class="line">[<span class="meta">Route(<span class="string">&quot;api/[controller]/[action]&quot;</span>)</span>]</span><br><span class="line">[<span class="meta">ApiController</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SenderController</span> : <span class="title">ControllerBase</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">HttpPost</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">async</span> Task&lt;ActionResult&lt;<span class="built_in">string</span>&gt;&gt; Sender([FromForm]<span class="built_in">string</span> content)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> factory = <span class="keyword">new</span> ConnectionFactory()</span><br><span class="line">        &#123;</span><br><span class="line">            HostName = <span class="string">&quot;localhost&quot;</span>,</span><br><span class="line">            UserName = <span class="string">&quot;guest&quot;</span>,</span><br><span class="line">            Password = <span class="string">&quot;guest&quot;</span>,</span><br><span class="line">            Port = <span class="number">9091</span></span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">using</span> <span class="keyword">var</span> connection = <span class="keyword">await</span> factory.CreateConnectionAsync();</span><br><span class="line">        <span class="keyword">using</span> <span class="keyword">var</span> channel = <span class="keyword">await</span> connection.CreateChannelAsync();</span><br><span class="line">        <span class="keyword">await</span> channel.QueueDeclareAsync(</span><br><span class="line">            queue: <span class="string">&quot;test_queue&quot;</span>,</span><br><span class="line">            durable: <span class="literal">true</span>,   <span class="comment">// 持久化队列</span></span><br><span class="line">            exclusive: <span class="literal">false</span>,</span><br><span class="line">            autoDelete: <span class="literal">false</span>,</span><br><span class="line">            arguments: <span class="literal">null</span></span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">var</span> body = Encoding.UTF8.GetBytes(content);</span><br><span class="line">        <span class="keyword">var</span> properties = <span class="keyword">new</span> BasicProperties</span><br><span class="line">        &#123;</span><br><span class="line">            DeliveryMode = DeliveryModes.Persistent <span class="comment">// 消息持久化</span></span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">await</span> channel.BasicPublishAsync(</span><br><span class="line">            exchange: <span class="string">&quot;&quot;</span>,</span><br><span class="line">            routingKey: <span class="string">&quot;test_queue&quot;</span>,</span><br><span class="line">            mandatory: <span class="literal">false</span>,</span><br><span class="line">            basicProperties: properties,</span><br><span class="line">            body: body</span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">return</span> Ok(<span class="string">&quot;Message sent&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a>Consumer</h1><h2 id="Background-Class"><a href="#Background-Class" class="headerlink" title="Background Class"></a>Background Class</h2><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.Hosting;</span><br><span class="line"><span class="keyword">using</span> RabbitMQ.Client;</span><br><span class="line"><span class="keyword">using</span> RabbitMQ.Client.Events;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">WebApplication1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RabbitMqConsumerService</span> : <span class="title">BackgroundService</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> ConnectionFactory _factory;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RabbitMqConsumerService</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        _factory = <span class="keyword">new</span> ConnectionFactory</span><br><span class="line">        &#123;</span><br><span class="line">            HostName = <span class="string">&quot;localhost&quot;</span>,</span><br><span class="line">            Port = <span class="number">9091</span>,          <span class="comment">// RabbitMQ Docker </span></span><br><span class="line">            UserName = <span class="string">&quot;guest&quot;</span>,</span><br><span class="line">            Password = <span class="string">&quot;guest&quot;</span></span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task <span class="title">ExecuteAsync</span>(<span class="params">CancellationToken stoppingToken</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">await</span> <span class="keyword">using</span> <span class="keyword">var</span> connection = <span class="keyword">await</span> _factory.CreateConnectionAsync(stoppingToken);</span><br><span class="line">        <span class="keyword">await</span> <span class="keyword">using</span> <span class="keyword">var</span> channel = <span class="keyword">await</span> connection.CreateChannelAsync(cancellationToken: stoppingToken);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 确保队列存在</span></span><br><span class="line">        <span class="keyword">await</span> channel.QueueDeclareAsync(</span><br><span class="line">            queue: <span class="string">&quot;test_queue&quot;</span>,</span><br><span class="line">            durable: <span class="literal">true</span>,</span><br><span class="line">            exclusive: <span class="literal">false</span>,</span><br><span class="line">            autoDelete: <span class="literal">false</span>,</span><br><span class="line">            arguments: <span class="literal">null</span>,</span><br><span class="line">            cancellationToken: stoppingToken</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> consumer = <span class="keyword">new</span> AsyncEventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">        consumer.ReceivedAsync += <span class="keyword">async</span> (model, ea) =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> body = ea.Body.ToArray();               <span class="comment">// ReadOnlyMemory&lt;byte&gt; -&gt; byte[]</span></span><br><span class="line">                <span class="keyword">var</span> message = Encoding.UTF8.GetString(body);</span><br><span class="line"></span><br><span class="line">                Console.WriteLine(<span class="string">$&quot;[x] Received: <span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 模拟业务处理</span></span><br><span class="line">                <span class="keyword">await</span> Task.Delay(<span class="number">500</span>, stoppingToken);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 成功处理后手动确认</span></span><br><span class="line">                <span class="keyword">await</span> channel.BasicAckAsync(ea.DeliveryTag, multiple: <span class="literal">false</span>, cancellationToken: stoppingToken);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(<span class="string">$&quot;[!] Error processing message: <span class="subst">&#123;ex.Message&#125;</span>&quot;</span>);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 异常时拒绝消息</span></span><br><span class="line">                <span class="comment">// requeue = false 表示丢弃，true 表示回队列重试</span></span><br><span class="line">                <span class="keyword">await</span> channel.BasicNackAsync(ea.DeliveryTag, multiple: <span class="literal">false</span>, requeue: <span class="literal">false</span>, cancellationToken: stoppingToken);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 开始消费（只调用一次）</span></span><br><span class="line">        <span class="keyword">await</span> channel.BasicConsumeAsync(</span><br><span class="line">            queue: <span class="string">&quot;test_queue&quot;</span>,</span><br><span class="line">            autoAck: <span class="literal">false</span>,        <span class="comment">// 手动确认</span></span><br><span class="line">            consumer: consumer,</span><br><span class="line">            cancellationToken: stoppingToken</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        Console.WriteLine(<span class="string">&quot;[*] RabbitMQ Consumer started. Waiting for messages.&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 保持后台服务运行</span></span><br><span class="line">        <span class="keyword">await</span> Task.Delay(Timeout.Infinite, stoppingToken);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="In-Program-cs"><a href="#In-Program-cs" class="headerlink" title="In Program.cs"></a>In Program.cs</h2><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">builder.Services.AddHostedService&lt;RabbitMqConsumerService&gt;();</span><br></pre></td></tr></table></figure>
+
+<h1 id="Flowchart"><a href="#Flowchart" class="headerlink" title="Flowchart"></a>Flowchart</h1><p><img src="https://raw.githubusercontent.com/johnson0405/my-images/main/RabbitMq.svg"></p>
+<ol>
+<li>Producer</li>
+</ol>
+<ul>
+<li><p>Role: The component that creates and sends messages.</p>
+</li>
+<li><p>Example in code: SenderController calling BasicPublishAsync.</p>
+</li>
+<li><p>RabbitMQ concept: Producer publishes messages to an Exchange.</p>
+</li>
+</ul>
+<ol start="2">
+<li>Exchange</li>
+</ol>
+<ul>
+<li><p>Role: Routes messages from producers to queues based on routing rules (routingKey).</p>
+</li>
+<li><p>Types: Direct, Fanout, Topic, Headers.</p>
+</li>
+<li><p>Default Exchange: “” — a direct exchange where the routingKey equals the queue name.</p>
+</li>
+</ul>
+<ol start="3">
+<li>Queue</li>
+</ol>
+<ul>
+<li><p>Role: Stores messages until a consumer retrieves them.</p>
+</li>
+<li><p>Durable Queue: Persists even if RabbitMQ restarts.</p>
+</li>
+<li><p>Exclusive &#x2F; AutoDelete: Optional settings controlling access and lifecycle.</p>
+</li>
+</ul>
+<ol start="4">
+<li>Consumer</li>
+</ol>
+<ul>
+<li><p>Role: Receives messages from a queue and processes them.</p>
+</li>
+<li><p>Example in code: BackgroundService with AsyncEventingBasicConsumer.</p>
+</li>
+</ul>
+<p>Can process messages asynchronously and decide what to do after processing.</p>
+<ol start="5">
+<li>Message Processing &amp; Acknowledgment</li>
+</ol>
+<ul>
+<li>Process Message: Business logic that handles the message payload.</li>
+</ul>
+<p>Acknowledgment (Ack):</p>
+<ul>
+<li><p>BasicAck: Confirms successful processing; message removed from the queue.</p>
+</li>
+<li><p>BasicNack &#x2F; BasicReject: Signals failure; message can be requeued or discarded.</p>
+</li>
+</ul>
+<ol start="6">
+<li>Message Flow Summary</li>
+</ol>
+<ul>
+<li><p>Producer → Exchange: Sends a message to RabbitMQ.</p>
+</li>
+<li><p>Exchange → Queue: Routes message based on routing key.</p>
+</li>
+<li><p>Queue → Consumer: Stores message until consumer retrieves it.</p>
+</li>
+<li><p>Consumer → Ack&#x2F;Nack: Confirms successful processing or signals failure.</p>
+</li>
+</ul>
+<ol start="7">
+<li>Optional Behavior</li>
+</ol>
+<ul>
+<li><p>Requeue &#x3D; true: Message goes back to the queue for retry.</p>
+</li>
+<li><p>Requeue &#x3D; false: Message is discarded.</p>
+</li>
+</ul>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> Please indicate the source of the reprint. Please verify the source of the quotation in the article. Please point out any mistakes or unclear expressions. You can comment in the comments section below or email johnson27945@outlook.com, thank you for your support! </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2016-2020 zlog
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+        /* 渲染*/
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        if (window.mermaid){
+            window.mermaid = null
+        }
+        $.getScript("//cdn.jsdelivr.net/npm/mermaid@8.4.2/dist/mermaid.min.js", function () {
+            var mermaidOptions = JSON.parse(HTMLDecode("{&#34;theme&#34;:&#34;default&#34;,&#34;startOnLoad&#34;:true,&#34;flowchart&#34;:{&#34;useMaxWidth&#34;:false,&#34;htmlLabels&#34;:true}}"))
+            if (window.mermaid) {
+                mermaid.initialize(mermaidOptions)
+                mermaid.contentLoaded()
+            }
+        })
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+<div class="mobile-menus-out" >
+
+</div>
+<div class="mobile-menus">
+    
+    
+    
+    
+    <a class="dynamic-menu " target="_blank"  href="https://github.com/tjtgzxs">github</a>
+    
+</div>
+
+
+</html>

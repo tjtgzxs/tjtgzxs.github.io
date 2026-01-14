@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Git | Johnson&#39;s Blog</title>
+  <meta name="keywords" content=" git ">
+  <meta name="description" content="Git | Johnson&#39;s Blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="在 Visual statio中创建 安装 AWS Toolkit for Visual Studio（在 VS 菜单的“扩展” -&gt; “管理扩展”中搜索即可）。  你需要打开 PowerShell 或 CMD，运行下面这条官方命令： 1dotnet new install Amazon.Lambda.Templates 这条命令会把 AWS 所有的 C# 模板（包括 Web API, SQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to use c# in Lambda">
+<meta property="og:url" content="https://tjtgzxs.github.io/2026/01/14/CSharp-How%20to%20use%20cSharp%20in%20Lambda/index.html">
+<meta property="og:site_name" content="Johnson&#39;s Blog">
+<meta property="og:description" content="在 Visual statio中创建 安装 AWS Toolkit for Visual Studio（在 VS 菜单的“扩展” -&gt; “管理扩展”中搜索即可）。  你需要打开 PowerShell 或 CMD，运行下面这条官方命令： 1dotnet new install Amazon.Lambda.Templates 这条命令会把 AWS 所有的 C# 模板（包括 Web API, SQ">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-14T13:21:18.000Z">
+<meta property="article:modified_time" content="2026-01-14T08:35:33.907Z">
+<meta property="article:author" content="Johnson">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="backend">
+<meta property="article:tag" content=".net">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="Model">
+<meta property="article:tag" content="aws">
+<meta property="article:tag" content="lambda">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>Johnson</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="github"
+               href="https://github.com/tjtgzxs"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="facebook"
+               href="https://www.facebook.com/faker.tops"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-facebook"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+    
+        
+            <a title="instagram"
+               href="https://www.facebook.com/faker.tops"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-instagram"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="reddit"
+               href="https://www.reddit.com/user/yelog/"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-reddit"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="weibo"
+               href="http://weibo.com/u/2307534817"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-weibo"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="jianshu"
+               href="https://www.jianshu.com/u/ff56736de7cf"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-jianshu"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="zhihu"
+               href="https://www.zhihu.com/people/jaytp/activities"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-zhihu"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+            <a title="oschina"
+               href="https://my.oschina.net/yelog"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-oschina"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+            <a title="email"
+               href="mailto:jaytp@qq.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="qq"
+               href="http://wpa.qq.com/msgrd?v=3&uin=387753733&site=qq&menu=yes"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-qq"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="kugou"
+               href="https://www.kugou.com/"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-kugou"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="neteasemusic"
+               href="https://music.163.com/#/user/home?id=88151013"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-neteasemusic"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+    <a class="more-menus">更多菜单</a>
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="All">All
+            
+                <small>(41)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel=".net">
+                        
+                        .net
+                        <small>(19)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="css">
+                        
+                        css
+                        <small>(3)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="Design_Patterns">
+                        
+                        Design_Patterns
+                        <small>(5)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="nginx">
+                        
+                        nginx
+                        <small>(5)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="react">
+                        
+                        react
+                        <small>(7)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+                <a class="dynamic-menu "
+                   target="_blank"
+                        
+                   href="https://github.com/tjtgzxs">github</a>
+        
+    </div>
+    <div>
+        
+        <a 
+                                           class="friends">Friends</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="41">
+<input type="hidden" id="yelog_site_word_count" value="14.7k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>.net</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>accessibility</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>aria</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>aws</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>backend</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>C#</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>CORS</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>css</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>database</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Eforce</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>frontend</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>git</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>JWT</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>lambda</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Message Queue</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Model</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>nginx</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>page layout</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>php</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>RabbitMQ</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>react</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>react-form</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>react-router</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>react-toast</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>reactQuery</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>server</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>styled-components</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>swagger</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>The Wild Oasis</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>toast</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>visually hidden</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>website</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <div id="local-search-result">
+
+    </div>
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="All .net "
+           href="/2026/01/14/CSharp-How%20to%20use%20cSharp%20in%20Lambda/"
+           data-tag="C#,backend,.net,database,Model,aws,lambda"
+           data-author="" >
+            <span class="post-title" title="How to use c# in Lambda">How to use c# in Lambda</span>
+            <span class="post-date" title="2026-01-14 21:21:18">2026/01/14</span>
+        </a>
+        
+        
+        <a  class="All css "
+           href="/2026/01/14/Css-tips/"
+           data-tag="css,frontend"
+           data-author="" >
+            <span class="post-title" title="Css tips">Css tips</span>
+            <span class="post-date" title="2026-01-14 16:35:33">2026/01/14</span>
+        </a>
+        
+        
+        <a  class="All css "
+           href="/2026/01/14/Css-visually%20hide%20text/"
+           data-tag="css,frontend,accessibility,aria,visually hidden"
+           data-author="" >
+            <span class="post-title" title="Css visually hide text">Css visually hide text</span>
+            <span class="post-date" title="2026-01-14 16:35:33">2026/01/14</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/09/08/Csharp-RabbitMq/"
+           data-tag="C#,backend,.net,RabbitMQ,Message Queue"
+           data-author="" >
+            <span class="post-title" title="RabbitMQ Use">RabbitMQ Use</span>
+            <span class="post-date" title="2025-09-08 21:21:18">2025/09/08</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/09/05/CSharp-Model%20And%20database/"
+           data-tag="C#,backend,.net,database,Model"
+           data-author="" >
+            <span class="post-title" title="Model And Database（EFcore+mysql）">Model And Database（EFcore+mysql）</span>
+            <span class="post-date" title="2025-09-05 21:21:18">2025/09/05</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/28/CSharp-JWT/"
+           data-tag="C#,backend,.net,JWT"
+           data-author="" >
+            <span class="post-title" title="How to use JWT">How to use JWT</span>
+            <span class="post-date" title="2025-08-28 19:21:18">2025/08/28</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/28/CSharp-Use%20Filter/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use  filter">How to use  filter</span>
+            <span class="post-date" title="2025-08-28 19:21:18">2025/08/28</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/27/CSharp-Fluent%20Validator/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use Fluent Validator">How to use Fluent Validator</span>
+            <span class="post-date" title="2025-08-27 19:21:18">2025/08/27</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/27/CSharp-Get%20Config%20And%20Secrets/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to get Config And Secrets">How to get Config And Secrets</span>
+            <span class="post-date" title="2025-08-27 19:21:18">2025/08/27</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/27/CSharp-Use%20Background%20Service/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to Use Background Service">How to Use Background Service</span>
+            <span class="post-date" title="2025-08-27 19:21:18">2025/08/27</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/27/CSharp-Use%20Efcore/"
+           data-tag="C#,backend,.net,database,Eforce"
+           data-author="" >
+            <span class="post-title" title="How to use Efcore (Mysql)">How to use Efcore (Mysql)</span>
+            <span class="post-date" title="2025-08-27 19:21:18">2025/08/27</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/27/CSharp-Get%20EnvironmentName/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to get EnvironmentName">How to get EnvironmentName</span>
+            <span class="post-date" title="2025-08-27 10:21:18">2025/08/27</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/27/CSharp-MediatR/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use MediatR">How to use MediatR</span>
+            <span class="post-date" title="2025-08-27 10:21:18">2025/08/27</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-Cache/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use Cache">How to use Cache</span>
+            <span class="post-date" title="2025-08-26 21:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-Create%20Async%20function/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to create async function">How to create async function</span>
+            <span class="post-date" title="2025-08-26 21:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-DDD%20Structure/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to design DDD Pattern">How to design DDD Pattern</span>
+            <span class="post-date" title="2025-08-26 21:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-SignalR/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use SignalR">How to use SignalR</span>
+            <span class="post-date" title="2025-08-26 21:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-Solve%20Cors%20in%20.NET%20core%20webAPI/"
+           data-tag="C#,backend,.net,CORS"
+           data-author="" >
+            <span class="post-title" title="How to solve cors in .Net core">How to solve cors in .Net core</span>
+            <span class="post-date" title="2025-08-26 21:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-Use%20DI%20inject%20services%20In%20Controller/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use DI inject services In Controller">How to use DI inject services In Controller</span>
+            <span class="post-date" title="2025-08-26 21:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-Add%20swagger%20and%20swagger%20UI%20in%20.net%20core%20WebApi/"
+           data-tag="C#,swagger,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to add swagger and swagger UI in .net core WebApi">How to add swagger and swagger UI in .net core WebApi</span>
+            <span class="post-date" title="2025-08-26 14:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All .net "
+           href="/2025/08/26/CSharp-use%20Identity/"
+           data-tag="C#,backend,.net"
+           data-author="" >
+            <span class="post-title" title="How to use Identity">How to use Identity</span>
+            <span class="post-date" title="2025-08-26 14:21:18">2025/08/26</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/19/React-07-React-Hook-Form/"
+           data-tag="frontend,react,website,The Wild Oasis,react-form"
+           data-author="" >
+            <span class="post-title" title="react-05-reactQuery">react-05-reactQuery</span>
+            <span class="post-date" title="2024-11-19 17:44:03">2024/11/19</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/15/React-06-hot-toast/"
+           data-tag="frontend,react,website,The Wild Oasis,react-toast"
+           data-author="" >
+            <span class="post-title" title="react-05-reactQuery">react-05-reactQuery</span>
+            <span class="post-date" title="2024-11-15 17:44:03">2024/11/15</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/06/react-04-App-layout/"
+           data-tag="frontend,react,website,The Wild Oasis,page layout"
+           data-author="" >
+            <span class="post-title" title="react-03-react-router">react-03-react-router</span>
+            <span class="post-date" title="2024-11-06 17:44:03">2024/11/06</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/06/react-05-reactQuery/"
+           data-tag="frontend,react,website,The Wild Oasis,reactQuery,toast"
+           data-author="" >
+            <span class="post-title" title="react-05-reactQuery">react-05-reactQuery</span>
+            <span class="post-date" title="2024-11-06 17:44:03">2024/11/06</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/06/react-03-react-router/"
+           data-tag="frontend,react,website,The Wild Oasis,react-router"
+           data-author="" >
+            <span class="post-title" title="react-03-react-router">react-03-react-router</span>
+            <span class="post-date" title="2024-11-06 16:32:03">2024/11/06</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/06/react-02-styled-components/"
+           data-tag="css,frontend,react,website,The Wild Oasis,styled-components"
+           data-author="" >
+            <span class="post-title" title="react-02-styled-component">react-02-styled-component</span>
+            <span class="post-date" title="2024-11-06 13:32:03">2024/11/06</span>
+        </a>
+        
+        
+        <a  class="All react "
+           href="/2024/11/06/react-01-application_plan/"
+           data-tag="frontend,react,website,The Wild Oasis"
+           data-author="" >
+            <span class="post-title" title="react-01-application_plan">react-01-application_plan</span>
+            <span class="post-date" title="2024-11-06 11:25:23">2024/11/06</span>
+        </a>
+        
+        
+        <a  class="All Design_Patterns "
+           href="/2023/09/05/Design_Patterns%20_Adapter_Pattern/"
+           data-tag="backend,php"
+           data-author="" >
+            <span class="post-title" title="Design_Patterns _Adapter_Pattern">Design_Patterns _Adapter_Pattern</span>
+            <span class="post-date" title="2023-09-05 12:01:10">2023/09/05</span>
+        </a>
+        
+        
+        <a  class="All Design_Patterns "
+           href="/2023/09/01/Design_Patterns%20_Decorator_Pattern/"
+           data-tag="backend,php"
+           data-author="" >
+            <span class="post-title" title="Design_Patterns _Decorator_Pattern">Design_Patterns _Decorator_Pattern</span>
+            <span class="post-date" title="2023-09-01 12:01:10">2023/09/01</span>
+        </a>
+        
+        
+        <a  class="All Design_Patterns "
+           href="/2023/08/31/Design_Patterns_Abstract%20_Factory_Pattern%20/"
+           data-tag="backend,php"
+           data-author="" >
+            <span class="post-title" title="Design_Patterns Abstract Factory Pattern">Design_Patterns Abstract Factory Pattern</span>
+            <span class="post-date" title="2023-08-31 12:01:10">2023/08/31</span>
+        </a>
+        
+        
+        <a  class="All nginx "
+           href="/2023/08/30/nginx03-events/"
+           data-tag="backend,website,nginx,server"
+           data-author="" >
+            <span class="post-title" title="nginx03-events">nginx03-events</span>
+            <span class="post-date" title="2023-08-30 11:14:31">2023/08/30</span>
+        </a>
+        
+        
+        <a  class="All Design_Patterns "
+           href="/2023/08/29/Design_Patterns_Factory_Pattern/"
+           data-tag="backend,php"
+           data-author="" >
+            <span class="post-title" title="Design_Patterns Factory Pattern">Design_Patterns Factory Pattern</span>
+            <span class="post-date" title="2023-08-29 12:32:10">2023/08/29</span>
+        </a>
+        
+        
+        <a  class="All Design_Patterns "
+           href="/2023/08/29/Design_Patterns_Simple_Factory_Pattern/"
+           data-tag="backend,php"
+           data-author="" >
+            <span class="post-title" title="Design_Patterns Simple Factory Pattern">Design_Patterns Simple Factory Pattern</span>
+            <span class="post-date" title="2023-08-29 12:01:10">2023/08/29</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/08/29/git/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="Git">Git</span>
+            <span class="post-date" title="2023-08-29 12:01:10">2023/08/29</span>
+        </a>
+        
+        
+        <a  class="All css "
+           href="/2023/08/28/Css-Flex/"
+           data-tag="css,frontend"
+           data-author="" >
+            <span class="post-title" title="Css-flex">Css-flex</span>
+            <span class="post-date" title="2023-08-28 14:21:18">2023/08/28</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/08/28/docker-01/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="docker-01">docker-01</span>
+            <span class="post-date" title="2023-08-28 14:21:18">2023/08/28</span>
+        </a>
+        
+        
+        <a  class="All nginx "
+           href="/2023/08/28/nginx02-core/"
+           data-tag="backend,website,nginx,server"
+           data-author="" >
+            <span class="post-title" title="nginx02-core">nginx02-core</span>
+            <span class="post-date" title="2023-08-28 11:12:23">2023/08/28</span>
+        </a>
+        
+        
+        <a  class="All nginx "
+           href="/2023/08/28/nginx05-http-server%20/"
+           data-tag="backend,website,nginx,server"
+           data-author="" >
+            <span class="post-title" title="nginx05-http-server">nginx05-http-server</span>
+            <span class="post-date" title="2023-08-28 11:12:23">2023/08/28</span>
+        </a>
+        
+        
+        <a  class="All nginx "
+           href="/2023/08/27/nginx01-Command%20Params/"
+           data-tag="backend,website,nginx,server"
+           data-author="" >
+            <span class="post-title" title="nginx01-cmd params">nginx01-cmd params</span>
+            <span class="post-date" title="2023-08-27 16:14:31">2023/08/27</span>
+        </a>
+        
+        
+        <a  class="All nginx "
+           href="/2023/08/27/nginx04-http/"
+           data-tag="backend,website,nginx,server"
+           data-author="" >
+            <span class="post-title" title="nginx01-http">nginx01-http</span>
+            <span class="post-date" title="2023-08-27 16:14:31">2023/08/27</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">Git</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color4">git</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2026-01-14 16:35:33'>2023-08-29 12:01</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>Count:180</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>work area -&gt; stage area -&gt; local repo -&gt; remote repo</p>
+</blockquote>
+<blockquote>
+<p>from work area to stage area use git add</p>
+</blockquote>
+<blockquote>
+<p>from stage area to local repo use git commit</p>
+</blockquote>
+<blockquote>
+<p>from local repo to remote repo use git push</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git init #init </span><br><span class="line">git add . #add file to stage</span><br><span class="line">git commit -m &quot;message&quot; #commit to local repo</span><br><span class="line"></span><br><span class="line">##if want to reset to last commit</span><br><span class="line">#before add file to stage</span><br><span class="line">git checkout &lt;filename&gt; #discard changes</span><br><span class="line">#after add file to stage</span><br><span class="line">git reset  HEAD^ #reset to last commit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## create branch</span><br><span class="line">git branch &lt;branchname&gt; #create branch from current branch</span><br><span class="line">git checkout &lt;branchname&gt; #switch to branch</span><br><span class="line">git checkout -b &lt;branchname&gt; #create and switch to branch</span><br><span class="line">git branch -D &lt;branchname&gt; #force delete branch</span><br><span class="line"></span><br><span class="line">## merge branch</span><br><span class="line">git merge &lt;branchname&gt; #merge branch to current branch</span><br><span class="line">git merge --abort #abort merge when conflict</span><br><span class="line"></span><br><span class="line">git cherry-pick &lt;commitid&gt; #pick a commit  to current branch</span><br><span class="line"></span><br><span class="line">push to remote repo</span><br><span class="line">git remote add origin &lt;url&gt; #add remote repo</span><br><span class="line">git push -u origin master #push to remote repo</span><br><span class="line"></span><br><span class="line">## pull from remote repo</span><br><span class="line">git pull origin master #pull from remote repo</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+       <hr><span style="font-style: italic;color: gray;"> Please indicate the source of the reprint. Please verify the source of the quotation in the article. Please point out any mistakes or unclear expressions. You can comment in the comments section below or email johnson27945@outlook.com, thank you for your support! </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2016-2020 zlog
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+        /* 渲染*/
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        if (window.mermaid){
+            window.mermaid = null
+        }
+        $.getScript("//cdn.jsdelivr.net/npm/mermaid@8.4.2/dist/mermaid.min.js", function () {
+            var mermaidOptions = JSON.parse(HTMLDecode("{&#34;theme&#34;:&#34;default&#34;,&#34;startOnLoad&#34;:true,&#34;flowchart&#34;:{&#34;useMaxWidth&#34;:false,&#34;htmlLabels&#34;:true}}"))
+            if (window.mermaid) {
+                mermaid.initialize(mermaidOptions)
+                mermaid.contentLoaded()
+            }
+        })
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+<div class="mobile-menus-out" >
+
+</div>
+<div class="mobile-menus">
+    
+    
+    
+    
+    <a class="dynamic-menu " target="_blank"  href="https://github.com/tjtgzxs">github</a>
+    
+</div>
+
+
+</html>
